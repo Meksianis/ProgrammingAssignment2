@@ -1,0 +1,42 @@
+#### Assignment 2
+### Basically I adapted from provided function in the course by changing 
+###  m <- mean(data, ...) to m<-solve(data, ...) and then the name
+### setmean to setinverse and getmean to getinverse
+### makeCacheMatrix creates a matrix that consists of set the value of the matrxi and get the value of the matrix, set the value of the inverse
+### and get the value of the inverse
+
+makeCacheMatrix <- function(x = matrix()) {
+        m <- NULL
+        set <- function(y) {
+                x <<- y
+                m <<- NULL
+        }
+       ### obtain the matrix values
+        get <- function() x
+        setinverse <- function(inverse) m <<- inverse
+        getinverse <- function() m
+        list(set = set, get = get,
+             setinverse = setinverse,
+             getinverse = getinverse)
+}
+
+### This function calculates the inverse of the above function. Note that this use solve(data,...) solve will return the inverse of the matrix.
+## <<- is to assign a value to an object in an environment that are not the same as the current environment
+### solve is used to determine the inverse of matrix 
+                
+cacheSolve <- function(x, ...) {
+        m <- x$getinverse()
+        if(!is.null(m)) {
+                message("getting cached data")
+                return(m)
+        }
+        data <- x$get()
+        m <- solve(data, ...)
+        x$setinverse(m)
+        m
+}
+
+### If you want to run and find the solutions 
+## CreateFunction <- makeCacheMatrix()     
+## CreateFunction$set(matrix(c(1,1,2,2,3,5,0,6,9), 3, 3))   ### note choose matrix that is invertible
+## cacheSolve(CreateFunction)              
